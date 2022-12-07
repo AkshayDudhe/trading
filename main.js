@@ -6,6 +6,7 @@ const profit = document.getElementById('profit')
 const netProfit = document.getElementById('netProfit')
 const tax = document.getElementById('tax')
 const storageKey = 'TRADES'
+let index = 0
 let trades = JSON.parse(window.localStorage.getItem(storageKey))
 if (trades) {
   trades.forEach(trade => {
@@ -17,23 +18,55 @@ if (trades) {
 } else {
   trades = []
 }
-qty.addEventListener('keypress', (event) => {
-  if (event.key === 'Enter') {
-    addTrade()
-  }
-})
-
+document
+  .querySelectorAll('input')
+  .forEach((elem) => elem.addEventListener('keyup', (event) => {
+    if (event.key === 'Enter') {
+      if (event.target.id === 'bp') {
+        sp.focus()
+      } else if (event.target.id === 'sp') {
+        qty.focus()
+      } else if (event.target.id === 'qty') {
+        addTrade()
+      }
+    }
+  }))
+// document
+//   .querySelectorAll('td')
+//   .forEach((elem) => elem.addEventListener('focusout', (event) => {
+//     const parent = event.target.parentElement.children
+//     trades[event.target.parentElement.dataset.index] = [parent[0].innerHTML, parent[1].innerHTML, parent[2].innerHTML]
+//     window.localStorage.setItem(storageKey, JSON.stringify(trades))
+//     location.reload()
+//   }))
 function addTrade (store = true) {
   const tr = document.createElement('tr')
+  tr.dataset.index = index++
 
   const dBp = document.createElement('td')
+  dBp.contentEditable = true
   dBp.appendChild(document.createTextNode(bp.value))
 
   const dSp = document.createElement('td')
+  dSp.contentEditable = true
   dSp.appendChild(document.createTextNode(sp.value))
 
   const dQty = document.createElement('td')
+  dQty.contentEditable = true
   dQty.appendChild(document.createTextNode(qty.value))
+
+  const edit = document.createElement('td')
+  // edit.nodeType = 'button'
+  edit.classList.add('bi', 'bi-pencil')
+  edit.classList.add('button')
+  edit.addEventListener('click', (event) => {
+    const parent = event.target.parentElement.children
+    trades[event.target.parentElement.dataset.index] = [parent[1].innerHTML, parent[2].innerHTML, parent[3].innerHTML]
+    window.localStorage.setItem(storageKey, JSON.stringify(trades))
+    location.reload()
+  })
+  tr.appendChild(edit)
+
   const [p, t] = cal_options()
   profit.innerHTML = parseFloat(parseFloat(profit.innerHTML) + p).toFixed(2)
   tax.innerHTML = parseFloat(parseFloat(tax.innerHTML) + t).toFixed(2)
@@ -42,9 +75,9 @@ function addTrade (store = true) {
   sp.value = ''
   bp.value = ''
   const dPnl = document.createElement('td')
-  const dTax = document.createElement('td')
   dPnl.appendChild(document.createTextNode(p))
 
+  const dTax = document.createElement('td')
   dTax.appendChild(document.createTextNode(t))
 
   tr.append(dBp, dSp, dQty, dPnl, dTax)
@@ -65,15 +98,16 @@ function addTrade (store = true) {
 }
 
 function cal_options () {
-  const bp = parseFloat(parseFloat(document.getElementById('bp').value).toFixed(2))
-  const sp = parseFloat(parseFloat(document.getElementById('sp').value).toFixed(2))
+  let bp = parseFloat(parseFloat(document.getElementById('bp').value).toFixed(2))
+  let sp = parseFloat(parseFloat(document.getElementById('sp').value).toFixed(2))
   const qty = parseFloat(parseFloat(document.getElementById('qty').value).toFixed(2))
 
   if (isNaN(qty) || (isNaN(bp) && isNaN(sp))) {
+    window.alert(`missing value\n Buy: ${bp} | Sell: ${sp} | Qty: ${qty}`)
     return
   }
 
-  const brokerage = 40
+  let brokerage = 40
 
   if (isNaN(bp) || bp === 0) {
     bp = 0
