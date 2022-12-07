@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Page Title</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+  <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<!-- <script src="https://zerodha.com/static/js/brokerage.js"></script> -->
+</head>
+<body class="p-5 text-center">
+  <table class="table table-striped">
+    <tbody id="tradesTable">
+      <tr class="table-dark">
+        <td colspan="3">
+          Net Profit:  <span  id="netProfit">0</span>
+        </td>
+        <td>
+          Total Profit: <span id="profit">0</span>
+        </td>
+        <td>
+          Tax:  <span id="tax">0</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- <hr/> -->
+  <form action="POST">
+    <div class="container">
+      <div class="row">
+        <div class="col-4 form-group">
+          <input class="form-control" id="bp" placeholder="Buying price" autofocus/>
+        </div>
+        <div class="col-4 form-group">
+          <input class="form-control" id="sp" placeholder="Selling price"/>
+        </div>
+        <div class="col-4 form-group">
+          <input class="form-control" id="qty" placeholder="Quantity"/>
+        </div>
+      </div>
+    </div>
+  </form>
+  <button id="addRow" type="button" class="btn btn-primary m-2" onclick=addTrade()>Add trade</button>
+  <button id="clean" type="button" class="btn btn-danger m-2" onclick=clean()>Clean</button>
+</body>
+<script src='main.js'></script>
+</html>
