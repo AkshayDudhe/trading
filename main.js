@@ -60,17 +60,22 @@ function addTrade (store = true) {
   edit.classList.add('bi', 'bi-pencil')
   edit.classList.add('button')
   edit.addEventListener('click', (event) => {
+    const index = event.target.parentElement.dataset.index
     const parent = event.target.parentElement.children
-    trades[event.target.parentElement.dataset.index] = [parent[1].innerHTML, parent[2].innerHTML, parent[3].innerHTML]
+    if (isNaN(parent[1].innerHTML) || isNaN(parent[1].innerHTML) || isNaN(parent[1].innerHTML)) {
+      trades[index] = [parent[1].innerHTML, parent[2].innerHTML, parent[3].innerHTML]
+    } else {
+      trades.splice(index,1)
+    }
     window.localStorage.setItem(storageKey, JSON.stringify(trades))
     location.reload()
   })
   tr.appendChild(edit)
 
   const [p, t] = cal_options()
-  profit.innerHTML = parseFloat(parseFloat(profit.innerHTML) + p).toFixed(2)
+  profit.innerHTML = parseFloat(parseFloat(profit.innerHTML) + (p + t)).toFixed(2)
   tax.innerHTML = parseFloat(parseFloat(tax.innerHTML) + t).toFixed(2)
-  netProfit.innerHTML = parseFloat(parseFloat(netProfit.innerHTML) + (p - t)).toFixed(2)
+  netProfit.innerHTML = parseFloat(parseFloat(netProfit.innerHTML) + p).toFixed(2)
   // qty.value = ''
   sp.value = ''
   bp.value = ''
