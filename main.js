@@ -62,7 +62,7 @@ function addTrade (store = true) {
   edit.addEventListener('click', (event) => {
     const index = event.target.parentElement.dataset.index
     const parent = event.target.parentElement.children
-    if (isNaN(parent[1].innerHTML) || isNaN(parent[1].innerHTML) || isNaN(parent[1].innerHTML)) {
+    if (isNaN(parseFloat(parent[1].innerHTML)) || isNaN(parseFloat(parent[1].innerHTML)) || isNaN(parseFloat(parent[1].innerHTML))) {
       trades[index] = [parent[1].innerHTML, parent[2].innerHTML, parent[3].innerHTML]
     } else {
       trades.splice(index,1)
